@@ -30,6 +30,56 @@
         <url>git@github.com:WASdev/sample.async.jaxrss.git</url>
     </scm>-->
 
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Apache Derby upgraded from 10.10.1.1 for Java 21 support and CVE
+             remediation (CVE-2015-1832, CVE-2018-1313, CVE-2022-46337). -->
+        <derby.version>10.17.1.0</derby.version>
+
+        <!-- Java EE / JDK APIs removed from the JDK in Java 11 (JEP 320),
+             re-added as explicit dependencies keeping the javax namespace. -->
+        <jaxb.api.version>2.3.1</jaxb.api.version>
+        <jaxb.runtime.version>2.3.9</jaxb.runtime.version>
+        <javax.annotation.version>1.3.2</javax.annotation.version>
+
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                    <configuration>
+                        <release>${maven.compiler.release}</release>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.2.5</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <modules>
 
 		<module>daytrader3-ee6-ejb</module>

@@ -1,4 +1,4 @@
-# sample.daytrader3 [![Build Status](https://travis-ci.org/WASdev/sample.daytrader3.svg?branch=master)](https://travis-ci.org/WASdev/sample.daytrader3)
+# sample.daytrader3 [![CI](https://github.com/COG-GTM/sample.daytrader3/actions/workflows/ci.yml/badge.svg)](https://github.com/COG-GTM/sample.daytrader3/actions/workflows/ci.yml)
 
 # Java EE6: DayTrader3 Sample
 
@@ -9,12 +9,32 @@ This sample contains the DayTrader 3 benchmark, which is an application built ar
 
 DayTrader is an end-to-end benchmark and performance sample application. It provides a real world Java EE workload. 
 
+## Runtime requirements
+
+This sample builds and runs on **Java 21** (LTS). The build targets Java 21 in both
+Maven and Gradle, and the embedded Apache Derby driver has been upgraded to a
+current, security-patched line. The application still targets the Java EE 6 (`javax.*`)
+programming model on WebSphere Liberty. See [MIGRATION.md](/MIGRATION.md) for the full
+Java 8 → Java 21 migration notes.
+
 ## Getting Started
 
 Browse the code to see what it does, or build and run it yourself:
 * [Building and running on the command line using Maven and Gradle](/docs/Using-cmd-line.md)
 * [Building and running using Eclipse and WebSphere Development Tools (WDT)](/docs/Using-WDT.md)
 * [Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
+
+### Quick build & test
+
+```bash
+# Requires JDK 21 on PATH / JAVA_HOME
+mvn clean package
+```
+
+This compiles all modules, runs the JUnit 5 regression tests (order creation, quote
+retrieval, buy/sell execution math, holdings valuation) and assembles the EAR. It does
+not require a Liberty runtime; the Liberty functional tests remain bound to the
+integration-test phases.
 
 Once the server has been started, go to [http://localhost:9083/daytrader](http://localhost:9083/daytrader) to interact with the sample.
 

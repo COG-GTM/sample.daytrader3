@@ -22,7 +22,12 @@ repositories { mavenCentral(); }
 
 dependencies {
     providedCompile group:'javax.ws.rs', name: 'jsr311-api', version: '1.1.1'
+    // JAXB API removed from the JDK in Java 11 (JEP 320).
+    providedCompile group:'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
 }
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 
 

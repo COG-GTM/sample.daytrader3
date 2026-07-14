@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  build:
+    name: Build & test (Java 21)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Temurin JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      # Compiles all modules, runs the JUnit 5 regression tests and builds the
+      # jar/wars/ear. `package` stops before the integration-test phases, so the
+      # Liberty runtime is not required for CI.
+      - name: Build and test
+        run: mvn -B clean package
