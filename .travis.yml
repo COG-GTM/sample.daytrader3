@@ -1,11 +1,10 @@
 language: java
 
 jdk:
-    - openjdk8
+    - openjdk21
 
 env:
-    - TEST_COMMAND="gradle clean build"
-    - TEST_COMMAND="mvn clean install"
+    - TEST_COMMAND="mvn clean package"
 
 script:
 - (eval "$TEST_COMMAND")

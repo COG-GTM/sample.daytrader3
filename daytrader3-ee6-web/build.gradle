@@ -24,8 +24,13 @@ dependencies {
 	providedCompile group: 'javax.ejb', name: 'ejb-api', version: '3.0'	
 	providedCompile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'
 	providedCompile group:'javax.faces', name:'javax.faces-api', version:'2.1'
+	// Common Annotations removed from the JDK in Java 11 (JEP 320).
+	providedCompile group:'javax.annotation', name:'javax.annotation-api', version:'1.3.2'
 	compile group:'taglibs', name:'standard',version:'1.1.1'
 }
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 
 
