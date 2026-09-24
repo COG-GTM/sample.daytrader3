@@ -13,12 +13,12 @@ $ cd sample.daytrader3
 ### Building the sample
 :pushpin: [Switch to Eclipse example](/docs/Using-WDT.md/#building-the-sample-in-eclipse)
 
-This sample can be built using either [Gradle](#gradle-commands) or [Maven](#apache-maven-commands).
+This sample can be built using either [Gradle](#gradle-commands) or [Maven](#apache-maven-commands). A Java 11 JDK is required.
 
 ###### [Gradle](http://gradle.org/) commands
 
 ```bash
-$ gradle build
+$ ./gradlew build
 ```
 ###### [Apache Maven](http://maven.apache.org/) commands
 
