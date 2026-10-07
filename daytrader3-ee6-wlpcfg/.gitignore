@@ -13,3 +13,4 @@
 /servers/daytrader3_Sample/tranlog
 /servers/daytrader3_Sample/derby.log
 /shared/*
+/servers/.pid/
