@@ -2,19 +2,9 @@ apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
 war {
-	archiveName 'Rest.war'
+	archiveFileName = 'Rest.war'
 }
 
-
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = 'Sonatype Nexus Snapshots'
-            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
-    }
-}
 
 // Dependencies
 repositories { mavenCentral(); }
@@ -22,6 +12,7 @@ repositories { mavenCentral(); }
 
 dependencies {
     providedCompile group:'javax.ws.rs', name: 'jsr311-api', version: '1.1.1'
+    providedCompile group:'javax.xml.bind', name: 'jaxb-api', version: '2.2.12'
 }
 
 

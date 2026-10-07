@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 
 jar {
-    baseName 'dt-ejb'
+    archiveBaseName = 'dt-ejb'
 }
 
 
@@ -10,10 +10,9 @@ jar {
 repositories { mavenCentral(); }
 
 dependencies {
-	compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'
-    compile group: 'javax.ejb', name: 'ejb-api', version: '3.0'	
-    compile group: 'javax.jms', name: 'jms-api', version: '1.1-rev-1'
-    compile group: 'javax.transaction', name: 'jta', version: '1.1'
-} 
-
-sourceCompatibility = 1.7
+    compileOnly group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'
+    compileOnly group: 'javax.ejb', name: 'ejb-api', version: '3.0'
+    compileOnly group: 'javax.jms', name: 'jms-api', version: '1.1-rev-1'
+    compileOnly group: 'javax.transaction', name: 'jta', version: '1.1'
+    compileOnly group: 'javax.annotation', name: 'javax.annotation-api', version: '1.2'
+}

@@ -7,7 +7,7 @@
     </parent>
 
     <packaging>war</packaging>
-    <name>WAS Liberty Sample - Java EE6 Benchmark Sample - Web Module</name>
+    <name>Open Liberty Sample - Java EE6 Benchmark Sample - Web Module</name>
 	<build><finalName>Rest</finalName></build>
 	<artifactId>daytrader3-ee6-rest</artifactId>
 	<version>1.0-SNAPSHOT</version>
@@ -20,6 +20,12 @@
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>jsr311-api</artifactId>
 			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.12</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

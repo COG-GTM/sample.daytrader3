@@ -4,30 +4,33 @@
                              http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>net.wasdev.maven.parent</groupId>
-        <artifactId>java7-parent</artifactId>
-        <version>1.3</version>
-    </parent>
-
     <groupId>net.wasdev.wlp.sample</groupId>
     <artifactId>daytrader3</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>WAS Liberty Sample - Java EE6 Benchmark Sample</name>
+    <name>Open Liberty Sample - Java EE6 Benchmark Sample</name>
 
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
-            <url>https://raw.github.com/WASdev/sample.async.jaxrs/master/LICENSE</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <openliberty.version>26.0.0.10</openliberty.version>
+        <liberty.maven.plugin.version>3.12.3</liberty.maven.plugin.version>
+    </properties>
+
     <!--<scm>
-        <connection>scm:git:git@github.com:WASdev/sample.async.jaxrs.git</connection>
-        <developerConnection>scm:git@github.com:WASdev/sample.async.jaxrs.git</developerConnection>
-        <url>git@github.com:WASdev/sample.async.jaxrss.git</url>
+        <connection>scm:git:git@github.com:COG-GTM/sample.daytrader3.git</connection>
+        <developerConnection>scm:git:git@github.com:COG-GTM/sample.daytrader3.git</developerConnection>
+        <url>https://github.com/COG-GTM/sample.daytrader3</url>
     </scm>-->
 
     <modules>
@@ -38,5 +41,32 @@
 		<module>daytrader3-ee6</module>
         <module>daytrader3-ee6-wlpcfg</module>
     </modules>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.openliberty.tools</groupId>
+                    <artifactId>liberty-maven-plugin</artifactId>
+                    <version>${liberty.maven.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
