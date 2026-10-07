@@ -1,31 +1,34 @@
-apply plugin: 'ear'
-apply plugin: 'java'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'maven-publish'
-
-// Use the Liberty Gradle plugin to run our functional tests
-apply plugin: 'liberty'
-
 buildscript {
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.4'
+        classpath "io.openliberty.tools:liberty-gradle-plugin:${libertyGradlePluginVersion}"
     }
 }
-archivesBaseName = 'daytrader3-ee6'
+
+apply plugin: 'ear'
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'maven-publish'
+
+// Use the Liberty Gradle plugin to run our functional tests on Open Liberty
+apply plugin: 'liberty'
 
 ear {
    manifest {
       attributes 'Implementation-Title': 'DayTrader 3'
    }
-   archiveName="$baseName.$extension"
+   archiveFileName = 'daytrader3-ee6.ear'
+}
+
+configurations {
+    derbyLib
 }
 
 task copyDerbyLib(type: Copy) {
     into "../daytrader3-ee6-wlpcfg/shared/resources/Daytrader3_SampleDerbyLibs"
-    from configurations.runtime
+    from configurations.derbyLib
 }
 
 /* publishing {
@@ -41,23 +44,25 @@ task copyDerbyLib(type: Copy) {
 } */
 
 // Add a functional test task that runs during the 'check' phase that uses the Liberty Gradle plugin
-// to launch Liberty and run the test classes in the fvt source set
-task fvt(type: Test, dependsOn: installApps) {
+// to launch Open Liberty and run the test classes in the fvt source set
+task fvt(type: Test, dependsOn: 'deploy') {
     group 'Verification'
     description 'Runs the functional verification tests.'
-    reports.html.destination = file("$buildDir/reports/fvt")
-    reports.junitXml.destination = file("$buildDir/test-results/fvt")
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    reports.html.outputLocation = file("$buildDir/reports/fvt")
+    reports.junitXml.outputLocation = file("$buildDir/test-results/fvt")
     include '**/fvt/**'
     exclude '**/unit/**'
     systemProperties = ['liberty.test.port': getHttpPort()]
-    dependsOn libertyStart
-    finalizedBy libertyStop
-    // If libertyRoot is not set, automatically download & install Liberty runtime
+    dependsOn 'libertyStart'
+    finalizedBy 'libertyStop'
+    // If libertyRoot is not set, the Open Liberty kernel is downloaded and the server.xml features installed
 }
 
 test {
-	reports.html.destination = file("$buildDir/reports/unit")
-	reports.junitXml.destination = file("$buildDir/test-results/unit")
+	reports.html.outputLocation = file("$buildDir/reports/unit")
+	reports.junitXml.outputLocation = file("$buildDir/test-results/unit")
 	include '**/unit/**'
 	exclude '**/fvt/**'
 }
@@ -67,7 +72,8 @@ dependencies {
    deploy project (path: ':daytrader3-ee6-ejb', configuration: 'archives')
    deploy project (path: ':daytrader3-ee6-web', configuration: 'archives')
    deploy project (path: ':daytrader3-ee6-rest', configuration: 'archives')
-   compile group: 'org.apache.derby', name: 'derby', version: '10.10.1.1'
+   derbyLib group: 'org.apache.derby', name: 'derby', version: '10.10.1.1'
+   libertyRuntime group: 'io.openliberty', name: 'openliberty-kernel', version: openLibertyVersion
 }
 String getHttpPort() {
     def DEFAULT_HTTP_PORT = 9083
@@ -82,30 +88,33 @@ String getHttpPort() {
     return DEFAULT_HTTP_PORT
 }
 
-installApps.dependsOn 'ear'
-libertyStart.mustRunAfter 'installApps'
-
 liberty {
-    installDir = owner.hasProperty('libertyRoot') ? "${libertyRoot}" : null
-    server{
+    if (project.hasProperty('libertyRoot')) {
+        installDir = libertyRoot
+    }
+    userDir = rootProject.getProjectDir().getAbsolutePath()+'/daytrader3-ee6-wlpcfg'
+    server {
         name = 'daytrader3_Sample'
-        userDir = rootProject.getProjectDir().getAbsolutePath()+'/daytrader3-ee6-wlpcfg'
         looseApplication = false
-        apps = [file(ear.archivePath)]
-        features {
-           name = ['daytrader3_Sample']
-           acceptLicense = true
+        deploy {
+            apps = [ear]
         }
+        verifyAppStartTimeout = 120
     }
 }
+
+deploy.dependsOn 'ear', 'copyDerbyLib'
+// The wlpcfg clean task deletes the deployed ear and Derby libs, so run it first
+[deploy, copyDerbyLib, libertyStart].each { it.mustRunAfter ':daytrader3-ee6-wlpcfg:clean' }
+libertyStart.mustRunAfter 'deploy'
 
 if (!hasProperty('libertyRoot')) {
     fvt.dependsOn('installFeature')
 }
 
-assemble.dependsOn 'installApps','copyDerbyLib'
+assemble.dependsOn 'deploy','copyDerbyLib'
 
 // Run FVT by default
 check.dependsOn 'fvt'
-// do not create server since the usr directory is prebuilt.\
+// do not create server since the usr directory is prebuilt.
 libertyCreate.enabled = false

@@ -1,4 +1,4 @@
-# sample.daytrader3 [![Build Status](https://travis-ci.org/WASdev/sample.daytrader3.svg?branch=master)](https://travis-ci.org/WASdev/sample.daytrader3)
+# sample.daytrader3
 
 # Java EE6: DayTrader3 Sample
 
@@ -11,10 +11,10 @@ DayTrader is an end-to-end benchmark and performance sample application. It prov
 
 ## Getting Started
 
-Browse the code to see what it does, or build and run it yourself:
+The sample runs on [Open Liberty](https://openliberty.io/). Browse the code to see what it does, or build and run it yourself:
 * [Building and running on the command line using Maven and Gradle](/docs/Using-cmd-line.md)
-* [Building and running using Eclipse and WebSphere Development Tools (WDT)](/docs/Using-WDT.md)
-* [Downloading WAS Liberty](/docs/Downloading-WAS-Liberty.md)
+* [Building and running using an IDE with Liberty Tools](/docs/Using-Liberty-Tools.md)
+* [Downloading Open Liberty](/docs/Downloading-Open-Liberty.md)
 
 Once the server has been started, go to [http://localhost:9083/daytrader](http://localhost:9083/daytrader) to interact with the sample.
 

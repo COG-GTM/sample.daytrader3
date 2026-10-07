@@ -6,10 +6,11 @@
 .DS_Store
 /build/
 /.gradle/
-/servers/daytrader7Sample/apps
-/servers/daytrader7Sample/logs
-/servers/daytrader7Sample/workarea
-/servers/daytrader7Sample/messaging
-/servers/daytrader7Sample/tranlog
-/servers/daytrader7Sample/derby.log
+/servers/daytrader3_Sample/apps
+/servers/daytrader3_Sample/logs
+/servers/daytrader3_Sample/workarea
+/servers/daytrader3_Sample/messaging
+/servers/daytrader3_Sample/tranlog
+/servers/daytrader3_Sample/derby.log
 /shared/*
+/servers/.pid/
