@@ -365,6 +365,15 @@ public class TradeSLSBBean implements TradeSLSBLocal {
         return account.getOrders();
     }
 
+    /*
+     * Same rows as the orderejb.closedOrders named query. Derby picks the ORDER_ACCOUNTID index for the
+     * parameterized query and reads every order the account has ever placed on each request (this runs in
+     * OrdersAlertFilter for every page), so steer it to CLOSED_ORDERS (ACCOUNT_ACCOUNTID, ORDERSTATUS).
+     * Other databases treat the Derby override as a plain SQL comment.
+     */
+    private static final String CLOSED_ORDERS_SQL = "SELECT o.* FROM accountejb a, orderejb o --DERBY-PROPERTIES index=CLOSED_ORDERS\n"
+            + "WHERE a.profile_userid = ? AND o.account_accountid = a.accountid AND o.orderstatus = 'closed'";
+
     @Override
     public Collection<OrderDataBean> getClosedOrders(String userID) {
         if (Log.doTrace())
@@ -374,8 +383,8 @@ public class TradeSLSBBean implements TradeSLSBLocal {
 
             // Get the primary keys for all the closed Orders for this
             // account.
-            Query query = entityManager.createNamedQuery("orderejb.closedOrders");
-            query.setParameter("userID", userID);
+            Query query = entityManager.createNativeQuery(CLOSED_ORDERS_SQL, OrderDataBean.class);
+            query.setParameter(1, userID);
             Collection results = query.getResultList();
             Iterator itr = results.iterator();
 
